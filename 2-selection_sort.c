@@ -53,6 +53,19 @@ void selection_sort(int *array, size_t size)
 	size_t i, j;
 	int min;
 
+	if (size < 2)
+	{
+		return;
+	}
+	else if (size == 2)
+	{
+		if (array[0] > array[1])
+		{
+			swap(&array[0], &array[1]);
+			print_array(array, size);
+			return;
+		}
+	}
 	for (i = 0; i < size - 2; i++)
 	{
 		min = find_min(array, size, i);
