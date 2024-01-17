@@ -68,7 +68,7 @@ int partition(int *array, int lo, int hi, size_t size)
 void quick_sorting(int *array, int lo, int hi, size_t size)
 {
 	int p;
-	
+
 	/* ensures indices are in correct order */
 	if (lo >= hi || lo < 0)
 	{
