@@ -1,62 +1,50 @@
 #include "sort.h"
 
 /**
- * sortedInsert - inserts a node in sorted order into a linked list
- * @list: linked list to insert the node into
- * @listNode: node to insert into tht list
- * Return: void
- */
-void sortedInsert(listint_t **list, listint_t *listNode)
-{
-	listint_t *current;
-
-	if (*list == NULL)
-	{
-		*list = listNode;
-	}
-	else if ((*list)->n >= listNode->n)
-	{
-		listNode->next = *list;
-		listNode->next->prev = listNode;
-		*list = listNode;
-	}
-	else
-	{
-		current = *list;
-		while (current->next != NULL &&
-			   current->next->n < listNode->n)
-		{
-			current = current->next;
-		}
-
-		listNode->next = current->next;
-		if (current->next != NULL)
-		{
-			listNode->next->prev = listNode;
-		}
-		current->next = listNode;
-		listNode->prev = current;
-	}
-}
-
-/**
  * insertion_sort_list - sorts a doubly linked list in ascending order
- * @list: ointer to the head of theh list to sort
+ * @list: pointer to the head of the list to sort
  * Return: nothing
  */
 void insertion_sort_list(listint_t **list)
 {
-	listint_t *sorted = NULL;
-	listint_t *current = *list;
+	listint_t *current, *previous, *temp;
 
-	while (current != NULL)
+	if (*list == NULL || (*list)->next == NULL)
+		return;
+
+	current = *list;
+
+	while ((current = current->next) != NULL)
 	{
-		listint_t *next = current->next;
+		/*check if current is in right order*/
+		if (current->n < current->prev->n)
+		{
+			temp = current;
+			/* detach temp from the list*/
+			temp->prev->next = temp->next;
+			if (temp->next != NULL)
+				temp->next->prev = temp->prev;
 
-		current->prev = current->next = NULL;
-		sortedInsert(&sorted, current);
-		current = next;
+			previous = current->prev;
+			while (previous != NULL && previous->n > temp->n)
+				previous = previous->prev;
+
+			if (previous == NULL)
+			{
+				(*list)->prev = temp;
+				temp->next = (*list);
+				temp->prev = NULL;
+				*list = temp;
+			}
+			else
+			{
+				temp->next = previous->next;
+				previous->next->prev = temp;
+
+				previous->next = temp;
+				temp->prev = previous;
+			}
+			print_list(*list);
+		}
 	}
-
-	*list = sorted;
 }
