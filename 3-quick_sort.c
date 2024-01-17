@@ -17,10 +17,11 @@ void swap(int *a, int *b)
 
 /**
  * partition - divides array into two partitions
+ * @array: pointer to array to be sorted
  * @lo: integer on the left end
  * @hi: integer on the right end
  * @size: number of elements in the array to be sorted
- * 
+ *
  * Return: the pivot index
  */
 int partition(int *array, int lo, int hi, size_t size)
@@ -37,6 +38,7 @@ int partition(int *array, int lo, int hi, size_t size)
 		{
 			i++;
 			swap(&array[i], &array[j]);
+			print_array(array, size);
 		}
 	}
 	i++;
