@@ -29,22 +29,30 @@ int partition(int *array, int lo, int hi, size_t size)
 	int pivot;
 	int i, j;
 
+	/* choose the last element as the pivot */
 	pivot = array[hi];
+	/* temporary pivot index (TPI) */
 	i = lo - 1;
 
 	for (j = lo; j < hi; j++)
 	{
+		/* if current element is <= pivot */
 		if (array[j] <= pivot)
 		{
+			/* move the TPI forward */
 			i++;
+			/* swap the current element with element at TPI */
 			swap(&array[i], &array[j]);
-			print_array(array, size);
+			if (array[i] != array[j])
+				print_array(array, size);
 		}
 	}
+	/* move the pivot element to the correct pivot position */
 	i++;
 	swap(&array[i], &array[hi]);
-	print_array(array, size);
-	return (i);
+	if (array[i] != array[hi])
+		print_array(array, size);
+	return (i); /* the pivot index*/
 }
 
 /**
@@ -60,12 +68,15 @@ int partition(int *array, int lo, int hi, size_t size)
 void quick_sorting(int *array, int lo, int hi, size_t size)
 {
 	int p;
-
+	
+	/* ensures indices are in correct order */
 	if (lo >= hi || lo < 0)
 	{
 		return;
 	}
+	/* partition array and get the pivot index */
 	p = partition(array, lo, hi, size);
+	/* sort the two partitions */
 	quick_sorting(array, lo, p - 1, size);
 	quick_sorting(array, p + 1, hi, size);
 }
